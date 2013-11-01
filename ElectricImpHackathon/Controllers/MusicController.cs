@@ -23,7 +23,7 @@ namespace ElectricImpHackathon.Controllers
         private List<SongTrack> GetRandomSongs(int number)
         {
             var rand = new Random();
-            return Context.SongTracks.OrderBy(x => rand.NextDouble()).Take(number).ToList();
+            return Context.SongTracks.ToArray().OrderBy(x => rand.NextDouble()).Take(number).ToList();
         }
 
         private SongTrack GetSongById(int id)
@@ -72,13 +72,13 @@ namespace ElectricImpHackathon.Controllers
                     return View("SongNotFound");
                 }
             }
-            return View(song);
+            return View("PlaySong", song);
         }
 
         public ViewResult ListSongs()
         {
             var randomCollection = GetRandomSongs(5);
-            return View(randomCollection);
+            return View("ListSongs", randomCollection);
         }
 
         public ViewResult SongNotFound()

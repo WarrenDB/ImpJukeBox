@@ -7,7 +7,7 @@
     <Message>
         @foreach(var song in Model)
         {
-            song.ID + ": " + song.SongName + "\n";
+            @: @song.ID : @song.SongName <br />
         }
         Remember, send "PLAY " followed by the song ID to play that song!
     </Message>
