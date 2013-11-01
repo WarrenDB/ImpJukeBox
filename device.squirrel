@@ -1,0 +1,62 @@
+// configure the imp (best practice)
+imp.configure("LED Api", [], []);
+ 
+hardware.pin1.configure(PWM_OUT, 1.0/440, 1.0);
+hardware.pin2.configure(DIGITAL_OUT);
+hardware.pin5.configure(DIGITAL_OUT);
+hardware.pin7.configure(DIGITAL_OUT);
+hardware.pin8.configure(DIGITAL_OUT);
+hardware.pin9.configure(DIGITAL_OUT);
+ 
+ local amplitude = 0.15
+ 
+function getFrequency(note, octave) {
+    local freq = 0;
+    if (note == "A") freq = 27.50;
+    else if (note == "A'" || note == "As" || note == "Bb" || note == "B_") freq = 29.1352;
+    else if (note == "B") freq = 30.868;
+    else if (note == "C") freq = 16.352;
+    else if (note == "C'" || note == "Cs" || note == "Db" || note == "D_") freq = 34.6478;
+    else if (note == "D") freq = 18.354;
+    else if (note == "D'" || note == "Ds" || note == "Eb" || note == "E_") freq = 38.8909;
+    else if (note == "E") freq = 20.602;
+    else if (note == "F") freq = 21.827;
+    else if (note == "F'" || note == "Fs" || note == "Gb" || note == "G_") freq = 46.2493;
+    else if (note == "G") freq = 24.5;
+    else if (note == "G'" || note == "Gs" || note = "Ab" || note == "A_") freq = 51.9131;
+    return freq*math.pow(2,octave);
+}
+ 
+function setLed(ledState) {
+    amplitude = amplitude + 0.05;
+  for (local i = 0; i < ledState.len(); i++) {
+      local note = ledState[i].slice(1,-1).toupper();
+      local time = ledState[i].slice(0,1).tofloat();
+      local octave = ledState[i].slice(-1).tofloat();
+      local frequency = getFrequency(note, octave);
+      hardware.pin1.configure(PWM_OUT, 1.0/frequency, 1.0);
+    hardware.pin1.write(amplitude);
+    if (frequency > 250) hardware.pin9.write(1);
+    else hardware.pin9.write(0);
+    if (frequency > 390) hardware.pin8.write(1);
+    else hardware.pin8.write(0);
+    if (frequency > 530) hardware.pin7.write(1);
+    else hardware.pin7.write(0);
+    if (frequency > 670) hardware.pin5.write(1);
+    else hardware.pin5.write(0);
+    if (frequency > 810) hardware.pin2.write(1);
+    else hardware.pin2.write(0);
+    local currentTime = clock();
+    while (clock() < currentTime + (1.0/time));
+    if (amplitude > 0.15) amplitude = amplitude - 0.001
+  }
+  hardware.pin1.write(0);
+  hardware.pin2.write(0);
+  hardware.pin5.write(0);
+  hardware.pin7.write(0);
+  hardware.pin8.write(0);
+  hardware.pin9.write(0);
+}
+ 
+// register a handler for "led" messages from the agent
+agent.on("led", setLed);
