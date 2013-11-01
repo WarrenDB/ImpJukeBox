@@ -1,12 +1,22 @@
-﻿@model dynamic
+﻿@model ElectricImpHackathon.Models.SongTrack
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Create";
+    Layout = "~/Views/_Layout.cshtml";
 }
 
 <h2>ImpTune - New Tune</h2>
 
-<form>
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.LabelFor(x => x.SongName)
+        @Html.TextBoxFor(x => x.SongName)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.Data)
+        @Html.TextBoxFor(x => x.Data)
+    </div>
     
-</form>
+    <input type="submit" value="Save Song"/>
+}

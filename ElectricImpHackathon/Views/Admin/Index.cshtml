@@ -1,8 +1,39 @@
-﻿@model dynamic
+﻿@using ElectricImpHackathon.Models
+@model dynamic
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/_Layout.cshtml";
 }
 
 <h2>ImpTuner Admin</h2>
+<table>
+    @foreach (SongTrack track in Model)
+    {
+        <tr>
+            <td>@track.ID</td>
+            <td>@Html.ActionLink(
+                    linkText: track.SongName ?? "No name",
+                    actionName: "Details",
+                    controllerName: "Admin",
+                    routeValues: new { track.ID },
+                    htmlAttributes: null)</td>
+            <td>@Html.ActionLink(
+                    linkText: "Edit",
+                    actionName: "Edit",
+                    controllerName: "Admin",
+                    routeValues: new {track.ID},
+                    htmlAttributes: null
+                    )</td>
+            <td>@Html.ActionLink(
+                    linkText: "Delete",
+                    actionName: "Delete",
+                    controllerName: "Admin",
+                    routeValues: new {track.ID},
+                    htmlAttributes: null
+            )</td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Create New Song", "Create")

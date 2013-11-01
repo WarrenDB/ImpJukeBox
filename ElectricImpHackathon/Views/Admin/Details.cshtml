@@ -2,7 +2,26 @@
 
 @{
     ViewBag.Title = "title";
-    Layout = "_Layout";
+    Layout = "../_Layout.cshtml";
 }
 
-<h2>ImpTune - </h2>
+<h2>ImpTune - @Model.SongName</h2>
+
+<div><div>Data: </div><div>@Model.Data</div></div>
+
+<br/>
+
+@Html.ActionLink(
+        linkText: "Edit",
+        actionName: "Edit",
+        controllerName: "Admin",
+        routeValues: new {Model.ID},
+        htmlAttributes: null
+) - 
+@Html.ActionLink(
+        linkText: "Delete",
+        actionName: "Delete",
+        controllerName: "Admin",
+        routeValues: new {Model.ID},
+        htmlAttributes: null
+)

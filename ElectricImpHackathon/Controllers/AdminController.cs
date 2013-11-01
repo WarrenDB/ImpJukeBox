@@ -16,7 +16,7 @@ namespace ElectricImpHackathon.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return View(Context.SongTracks.ToList());
         }
 
         //
@@ -45,9 +45,12 @@ namespace ElectricImpHackathon.Controllers
             {
                 var song = new SongTrack()
                 {
-                    Data = collection.Get("data"),
-                    SongName = collection.Get("name")
+                    Data = collection.Get("Data"),
+                    SongName = collection.Get("SongName")
                 };
+
+                Context.SongTracks.Add(song);
+                Context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -62,7 +65,7 @@ namespace ElectricImpHackathon.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(Context.SongTracks.FirstOrDefault(track => track.ID == id));
         }
 
         //
@@ -73,7 +76,29 @@ namespace ElectricImpHackathon.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                var modSong = Context.SongTracks.FirstOrDefault(track => track.ID == id);
+                modSong.SongName = collection["SongName"];
+                modSong.Data = collection["Data"];
+                Context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        //
+        // GET: /Admin/Delete/5
+
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var doomedSong = Context.SongTracks.FirstOrDefault(track => track.ID == id);
+                Context.SongTracks.Remove(doomedSong);
+                Context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -84,14 +109,6 @@ namespace ElectricImpHackathon.Controllers
         }
 
         //
-        // GET: /Admin/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
         // POST: /Admin/Delete/5
 
         [HttpPost]
@@ -99,7 +116,9 @@ namespace ElectricImpHackathon.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                var doomedSong = Context.SongTracks.FirstOrDefault(track => track.ID == id);
+                Context.SongTracks.Remove(doomedSong);
+                Context.SaveChanges();
 
                 return RedirectToAction("Index");
             }

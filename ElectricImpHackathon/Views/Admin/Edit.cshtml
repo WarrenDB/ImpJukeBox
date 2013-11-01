@@ -1,0 +1,17 @@
+﻿@model ElectricImpHackathon.Models.SongTrack
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<h2>Edit = @Model.SongName</h2>
+
+@using (@Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.ID)
+    <div>@Html.LabelFor(x => Model.SongName) - @Html.TextBoxFor(x => Model.SongName)</div>
+    <div>@Html.LabelFor(x => Model.Data) - @Html.TextBoxFor(x => Model.Data)</div>
+    
+    <button type="submit" value="Submit"/>
+}
