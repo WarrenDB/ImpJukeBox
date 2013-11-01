@@ -34,15 +34,16 @@ namespace ElectricImpHackathon.Controllers
         public ViewResult Go()
         {
             var requestString = Request.Params["body"];
+            if (string.IsNullOrEmpty(requestString)) return View();
             var requestTokens = requestString.Split(' ');
             switch (requestTokens[0].ToLower())
             {
                 case "play":
-                    return View("PlaySong", requestTokens[1]);
+                    return PlaySong(requestTokens.Length > 1 ? requestTokens[1] : null);
                 case "list":
-                    return View("ListSongs");
+                    return ListSongs();
                 case "random":
-                    return View("PlaySong");
+                    return PlaySong(null);
                 default:
                     return View();
 
