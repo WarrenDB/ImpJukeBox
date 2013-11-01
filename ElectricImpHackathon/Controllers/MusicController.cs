@@ -53,14 +53,16 @@ namespace ElectricImpHackathon.Controllers
         public ViewResult PlaySong(string songId)
         {
             SongTrack song;
-            if (string.IsNullOrEmpty(songId))
+            int ID;
+            
+            if (string.IsNullOrEmpty(songId) || !int.TryParse(songId, out ID))
             {
                 song = GetRandomSongs(1).First();
                 SendSongToImp(song.Data);
             }
             else
             {
-                song = GetSongById(int.Parse(songId));
+                song = GetSongById(ID);
                 if (song != null)
                 {
                     SendSongToImp(song.Data);
