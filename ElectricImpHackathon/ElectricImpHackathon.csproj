@@ -146,9 +146,12 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\dealwithitchad2.pubxml" />
     <Content Include="Views\Music\Go.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Details.cshtml" />
+    <Content Include="Views\Music\PlaySong.cshtml" />
+    <Content Include="Views\Music\ListSongs.cshtml" />
+    <Content Include="Views\Music\SongNotFound.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\Admin\Details.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
